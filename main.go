@@ -31,7 +31,7 @@ func (g *LLMChangelogGenerator) Init(m map[string]string) error {
 }
 
 func (g *LLMChangelogGenerator) Name() string {
-	return "default"
+	return "llm"
 }
 
 func (g *LLMChangelogGenerator) Version() string {
@@ -41,9 +41,10 @@ func (g *LLMChangelogGenerator) Version() string {
 var promptTemplate = template.Must(template.New("prompt").Funcs(template.FuncMap{"join": strings.Join}).Parse(`
 Generate a meaningful changelog summary for the newest release ({{.NewVersion}}) based on the following list of commits, which contains changes made since the last release.
 Please provide a concise summary of the updates, features, and bug fixes included in this release.
-Keep the summary short and only respond with the changelog summary.
-The summary should be written as a continuous text and the tone of voice should be very technical and emotionless.
-Do not use enumerations or bullet point.
+Keep the summary short and only respond with the changelog summary in the markdown format.
+Additionally highlight important changes in the summary.
+Do not use markdown backticks to format the summary and use "Release {{.NewVersion}}" as heading.
+The tone of voice of the summary must be technical and emotionless.
 Commits:
 {{range .Commits}}
 {{join .Raw ", "}}
