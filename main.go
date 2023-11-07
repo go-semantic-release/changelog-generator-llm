@@ -38,7 +38,12 @@ func (g *LLMChangelogGenerator) Version() string {
 	return version
 }
 
-var promptTemplate = template.Must(template.New("prompt").Funcs(template.FuncMap{"join": strings.Join}).Parse(`
+var promptTemplate = template.Must(template.
+	New("prompt").
+	Funcs(template.FuncMap{
+		"join": strings.Join,
+	}).
+	Parse(`
 Generate a meaningful changelog summary for the newest release ({{.NewVersion}}) based on the following list of commits, which contains changes made since the last release.
 Please provide a concise summary of the updates, features, and bug fixes included in this release.
 Keep the summary short and only respond with the changelog summary in the markdown format.
